@@ -6,47 +6,9 @@
 # mail: cfwang_9984@163.com
 #
 {   
-    'variables': {
-    },
-    'target_defaults': {
-      'conditions' :[
-        ['OS=="win"', {
-          'defines': [
-            'WIN32',
-          ],
-          'configurations': {
-            'Debug': {
-              'msvs_settings':{
-                'VCCLCompilerTool': {
-                  'RuntimeLibrary': '3',
-                  'Optimization':'0',
-                  'DebugInformationFormat':'4',
-                },
-                'VCLinkerTool': {
-                  'GenerateDebugInformation': 'true',
-                  'GenerateMapFile': 'false',
-                  'SubSystem': '1',
-                },
-              },
-            }, #Debug
-            'Release': {
-              'msvs_settings': {
-                'VCCLCompilerTool': {
-                  'RuntimeLibrary': '2',
-                  'Optimization' : '2',
-                  'EnableIntrinsicFunctions':'true',
-                  'DebugInformationFormat': '3',
-                },
-                'VCLinkerTool': {
-                  'GenerateDebugInformation': 'true',
-                  'GenerateMapFile': 'false,'
-                },
-              }, #msvs_settings
-            }, #Release
-          }, #configurations
-        }],  #OS=="win"
-      ], #conditions
-    },
+   'includes':[
+      'common.gypi',
+    ],
     'targets': [
         {
         'target_name': 'libwavetrans',
@@ -58,9 +20,6 @@
           'include_dirs': [
             '.',       
            ],
-           'ldflags': [
-            '-lstdc++',
-           ],
         },
         'sources': [
           'buff_utils/queue.c',
@@ -69,8 +28,6 @@
           'buff_utils/ring_buff.h',
           'checksum_utils/crc_codec.c',
           'checksum_utils/crc_codec.h',
-          'checksum_utils/rs_code.cc',
-          'checksum_utils/rs_code.h',
           'checksum_utils/parity_codec.c',
           'checksum_utils/parity_codec.h',
           'kiss_fft/_kiss_fft_guts.h',
@@ -103,6 +60,9 @@
           'audio_codec/pcm_to_wav.c',
           'audio_codec/pcm_to_wav.h',
         ],
+        'dependencies':[
+          '<(PRO_ROOT)/rs_codec/librs.gyp:librs',
+        ],
       }, # target libwavetrans
       {
         'target_name': 'wave_tran_recv',
@@ -116,6 +76,7 @@
         ],
         'dependencies': [
           'libwavetrans',
+          '<(PRO_ROOT)/rs_codec/librs.gyp:librs',
         ],
       }, #target wave_tran_recv
       {
@@ -130,6 +91,7 @@
         ],
         'dependencies': [
           'libwavetrans',
+          '<(PRO_ROOT)/rs_codec/librs.gyp:librs',
         ],
       }, #target wave_tran_send
       {
@@ -144,6 +106,7 @@
         ],
         'dependencies': [
           'libwavetrans',
+          '<(PRO_ROOT)/rs_codec/librs.gyp:librs',
         ],
       }, #target phy_test
       {
@@ -158,21 +121,8 @@
         ],
         'dependencies': [
           'libwavetrans',
+          '<(PRO_ROOT)/rs_codec/librs.gyp:librs',
         ],
       }, #target test_tools
-      {
-        'target_name': 'rs_test',
-        'type': 'executable',
-        'include_dirs': [
-          './demo',
-          '.',
-        ],
-        'sources': [
-          'demo/rs_test.c',
-        ],
-        'dependencies': [
-          'libwavetrans',
-        ],
-      }, #target rs_test
     ],
 }

@@ -7,7 +7,7 @@
 */
 #include "wt_proto_link_layer.h"
 #include "checksum_utils/crc_codec.h"
-#include "checksum_utils/rs_code.h"
+#include "rs_code.h"
 #include <stdlib.h>
 #include <string.h>
 

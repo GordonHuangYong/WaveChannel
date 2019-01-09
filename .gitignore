@@ -13,3 +13,5 @@ Makefile
 /Debug/
 /.vs/
 /out/
+/tools/
+/rs_codec/Debug/

@@ -1,10 +1,18 @@
 #! /bin/bash
+ROOT=`pwd`
+GYP_TOOLS=${ROOT}/tools/GYP-Tools/gyp
 
-if [ %# != 2 ]
+
+if [ ! -d ${ROOT}/tools ]
 then
-  echo "without input gyp tools path"
-  echo "usage: $0 gyp_tools_path"
-else
-  GYP_TOOLS=$1
-  ${GYP_TOOLS} --depth=. -f make wave_trans.gyp
+  mkdir ${ROOT}/tools
 fi
+
+if [ ! -d ${ROOT}/tools/GYP-Tools ]
+then
+  cd ${ROOT}/tools
+  git clone https://github.com/luguocfw/GYP-Tools
+  cd ${ROOT}
+fi
+export GYP_DEFINES="OS=linux PRO_ROOT=${ROOT} "
+${GYP_TOOLS} --depth=. -f make wave_trans.gyp
